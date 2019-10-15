@@ -38,10 +38,12 @@ namespace RosSharp.RosBridgeClient
         {
             whatever = (float)message.data;
             isMessageReceived = true;
+            
         }
 
         private void Update()
         {
+            
             if (isMessageReceived)
                 ProcessMessage();        
 

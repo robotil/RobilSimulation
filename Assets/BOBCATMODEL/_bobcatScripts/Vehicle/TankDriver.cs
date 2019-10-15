@@ -89,6 +89,7 @@ public class TankDriver : MonoBehaviour
         Torque = MaxTorque * Throttle;
         rightSpeed = Throttle * MaxSpeed + Steer * MaxSteeringSpeed;
         leftSpeed = Throttle * MaxSpeed - Steer * MaxSteeringSpeed;
+        Debug.Log("Right Speed =  " + rightSpeed + "    Left Speed =  " +leftSpeed);
         rb.AddRelativeForce(0, 0, Throttle * HelperForce);
         for (int i = 0; i < rightHinges.Length; i++)
         {
