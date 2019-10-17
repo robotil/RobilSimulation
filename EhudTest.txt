@@ -1,6 +1,0 @@
-file has been modified again and again
-
-blablablablabla
-
-
-a new line added on "branch to merge" branch. this line should be seen only on this branch untill the merge
