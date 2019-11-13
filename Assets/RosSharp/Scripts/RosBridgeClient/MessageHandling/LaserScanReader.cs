@@ -62,10 +62,12 @@ namespace RosSharp.RosBridgeClient
             rays = new Ray[samples];
             raycastHits = new RaycastHit[samples];
             ranges = new float[samples];
-
+            
             for (int i = 0; i < samples; i++)
             {
+                
                 rays[i] = new Ray(transform.position, Quaternion.Euler(new Vector3(0, angle_min - angle_increment * i * 180 / Mathf.PI, 0)) * transform.forward);
+
                 directions[i] = Quaternion.Euler(-transform.rotation.eulerAngles) * rays[i].direction;
 
                 raycastHits[i] = new RaycastHit();

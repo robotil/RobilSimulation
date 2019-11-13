@@ -53,35 +53,31 @@ public class TankDriver : MonoBehaviour
             angularRequest = -(Input.GetAxis("Horizontal"));
             angularRequest = Mathf.Clamp(angularRequest, -1, 1);
             throttleRequest = Input.GetAxis("Vertical");
-#if !OTHERWAY
             Apply(throttleRequest, angularRequest);
-#endif
         }
-#if OTHERWAY
-        Apply(throttleRequest, angularRequest);
-#endif
     }
+
     public void SetThrottle(float InThrottle)
     {
-#if OTHERWAY
+        #if OTHERWAY
         if (ManualInput) return;
         throttleRequest = InThrottle;
-#endif
+        #endif
     }
     public void SetSteer(float InSteer)
     {
-#if OTHERWAY
+        #if OTHERWAY
         if (ManualInput) return;
         angularRequest = InSteer;
-#endif
+        #endif
     }
     public void Drive(float Throttle, float Steer)
     {
-#if OTHER_OTHERWAY
+        #if OTHER_OTHERWAY
         if (ManualInput) return;
         angularRequest = Steer;
         throttleRequest = Throttle;
-#endif
+        #endif
     }
     public void Apply(float Throttle, float Steer)
     {
@@ -89,7 +85,6 @@ public class TankDriver : MonoBehaviour
         Torque = MaxTorque * Throttle;
         rightSpeed = Throttle * MaxSpeed + Steer * MaxSteeringSpeed;
         leftSpeed = Throttle * MaxSpeed - Steer * MaxSteeringSpeed;
-        Debug.Log("Right Speed =  " + rightSpeed + "    Left Speed =  " +leftSpeed);
         rb.AddRelativeForce(0, 0, Throttle * HelperForce);
         for (int i = 0; i < rightHinges.Length; i++)
         {

@@ -32,10 +32,7 @@ const double PI  =3.141592653589793238463;
         public int pfreq = 20;
         public bool Outside_Time_Synchronization=false;
 
-        public Text GPSCoordinates;
-        public Text XZpositions;
-        public Text XZDistance;
-        public Text Bearing;
+        public Text GPSCoordinates, XZpositions, XZDistance, Bearing;
 
         Vector3 _init_pos = Vector3.zero;
         private Messages.Sensor.NavSatFix message;
@@ -57,11 +54,12 @@ const double PI  =3.141592653589793238463;
 
         private void FixedUpdate()
         {
+            setGPStext();
           //  if (Time.deltaTime <1.0/pfreq) return;
 
             if (!Outside_Time_Synchronization){ 
                     UpdateMessage();
-                    setGPStext();
+                    
             }
 
         }
@@ -177,7 +175,7 @@ const double PI  =3.141592653589793238463;
             GPSCoordinates = GameObject.Find("GPS_coordinates_text").GetComponent<Text>();
             GPSCoordinates.text = "Latitude:  " + LatDeg + "    Longitude:   " + LonDeg;
 
-            XZpositions = GameObject.Find("X_Z_positions").GetComponent<Text>();
+            XZpositions = GameObject.Find("XZpositions").GetComponent<Text>();
             XZpositions.text = "init pos =  ( " + Math.Round(_init_pos.x) + " , " + Math.Round(_init_pos.z) + " )  ;  tmp pos =  ( " + tmpPos.x + " , " + tmpPos.z + " )";
 
             XZDistance = GameObject.Find("XZDistance").GetComponent<Text>();

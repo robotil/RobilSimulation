@@ -87,7 +87,7 @@ namespace RosSharp.RosBridgeClient
                 message.longitude = rb.velocity.x;
                 message.latitude = rb.velocity.z;
                 message.altitude = rb.velocity.y;
-                Debug.Log("SendSynchronizedMessage velocity="+rb.velocity.ToString());
+                //Debug.Log("SendSynchronizedMessage velocity="+rb.velocity.ToString());
                 Publish(message);
            
         }
