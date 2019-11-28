@@ -14,6 +14,9 @@ limitations under the License.
 */
 
 using UnityEngine;
+using Unity.Collections;
+using Unity.Jobs;
+using System.Text;
 
 namespace RosSharp.RosBridgeClient
 {
@@ -23,12 +26,19 @@ namespace RosSharp.RosBridgeClient
         private RaycastHit[] raycastHits;
         private Vector3[] directions;
         private LaserScanVisualizer[] laserScanVisualizers;
+        private float currentRayDirection = 0;
+        private float lastRayDirection = 0;
+        float NewTurnTime = 0;
+        private float rayResolution = 0;
 
-        public int samples = 360;
+        
+
+        public int samples = 0;
+        public int rotationFrequency = 0;
         public int update_rate = 1800;
         public float angle_min = 0;
         public float angle_max = 6.28f;
-        public float angle_increment = 0.0174533f;
+        public float angle_increment = -0.0174533f;
         public float time_increment = 0;
         public float scan_time = 0;
         public float range_min = 0.12f;
@@ -43,38 +53,93 @@ namespace RosSharp.RosBridgeClient
             intensities = new float[samples];
             rays = new Ray[samples];
             raycastHits = new RaycastHit[samples];
+            rayResolution = (float)3600/samples;
+            Debug.Log("ray resolution:  " + rayResolution);
+
         }
 
         public float[] Scan()
         {
-            MeasureDistance();
 
-            laserScanVisualizers = GetComponents<LaserScanVisualizer>();
-            if (laserScanVisualizers != null)
-                foreach (LaserScanVisualizer laserScanVisualizer in laserScanVisualizers)
-                    laserScanVisualizer.SetSensorData(gameObject.transform, directions, ranges, range_min, range_max);
+            //Scan is called every fixed update which is 0.02 sec. in this
+            
+          RaycastJobs();  // uing the multithread (jobs) raycast function
+
+
+            //laserScanVisualizers = GetComponents<LaserScanVisualizer>();
+            //if (laserScanVisualizers != null)
+            //Debug.Log("visualizer is activated");
+            //    foreach (LaserScanVisualizer laserScanVisualizer in laserScanVisualizers)
+              //      laserScanVisualizer.SetSensorData(gameObject.transform, directions, ranges, range_min, range_max);
 
             return ranges;
         }
 
-        private void MeasureDistance()
+       private void RaycastJobs()
         {
+
+            //For one ray samples = 1
             rays = new Ray[samples];
             raycastHits = new RaycastHit[samples];
             ranges = new float[samples];
-            
-            for (int i = 0; i < samples; i++)
+            directions = new Vector3[samples];
+            currentRayDirection = 0;
+
+            // the function Quaternion.euler input is in degrees
+
+            // Perform a single raycast using RaycastCommand and wait for it to complete
+            // Setup the command and result buffers
+            var results = new NativeArray<RaycastHit>(samples, Allocator.TempJob);
+
+            var commands = new NativeArray<RaycastCommand>(samples, Allocator.TempJob);
+
+            float timeBeforeJob =  Time.realtimeSinceStartup;
+
+            int i = 0;
+            while (i  < samples)
             {
-                
-                rays[i] = new Ray(transform.position, Quaternion.Euler(new Vector3(0, angle_min - angle_increment * i * 180 / Mathf.PI, 0)) * transform.forward);
-
-                directions[i] = Quaternion.Euler(-transform.rotation.eulerAngles) * rays[i].direction;
-
-                raycastHits[i] = new RaycastHit();
-                if (Physics.Raycast(rays[i], out raycastHits[i], range_max))
-                    if (raycastHits[i].distance >= range_min && raycastHits[i].distance <= range_max)
-                        ranges[i] = raycastHits[i].distance;
+               currentRayDirection = i * rayResolution;
+               commands[i] = new RaycastCommand(transform.position, Quaternion.Euler(new Vector3(0, currentRayDirection, 0)) * transform.forward);
+               i++;     
             }
+
+            Debug.Log("commands length:  " + commands.Length);
+            // Schedule the batch of raycasts
+            JobHandle handle = RaycastCommand.ScheduleBatch(commands, results, 8, default(JobHandle));
+
+            // Wait for the batch processing job to complete
+            handle.Complete();
+
+            //var sb = new StringBuilder();
+            // Copy the result. If batchedHit.collider is null there was no hit
+            
+            
+            for (int j=0; j<commands.Length; j++)
+            {
+
+                ranges[j] = results[j].distance;
+
+              //  sb.Append(hit.distance +",");
+              //  if(hit.collider!=null)
+               // {
+                   
+                    
+               // }
+               // else
+               // {
+                    //DontHit
+               // }
+            }
+            
+            // Debug.Log("results are: " + sb.ToString());
+
+            Debug.Log("Time After another set of rays (Job) :  " + (Time.realtimeSinceStartup - timeBeforeJob));
+            // Dispose the buffers
+            results.Dispose();
+            commands.Dispose();
+            
         }
     }
+
+    
 }
