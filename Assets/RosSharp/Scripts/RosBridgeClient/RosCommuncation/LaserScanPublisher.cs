@@ -36,7 +36,10 @@ namespace RosSharp.RosBridgeClient
         {
             if (Time.realtimeSinceStartup >= previousScanTime + scanPeriod)
             {
+                Debug.Log("Real time since startup: " + Time.realtimeSinceStartup + ";  previous scan time : " + previousScanTime);
+                float timeBeforeUpdateMessage = Time.realtimeSinceStartup;
                 UpdateMessage();
+                Debug.Log("Time of UpdateMessage: " + (Time.realtimeSinceStartup - timeBeforeUpdateMessage));
                 previousScanTime = Time.realtimeSinceStartup;
             }
         }
