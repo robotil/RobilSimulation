@@ -7,7 +7,7 @@ public class ScriptForTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("quaternion of (20, 0, 50) is:  " + Quaternion.Euler(20, 0, 50));
+        //Debug.Log("quaternion of (20, 0, 50) is:  " + Quaternion.Euler(20, 0, 50));
 
     }
 
