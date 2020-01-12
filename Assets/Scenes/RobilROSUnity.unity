@@ -189,6 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   samples: 71
+  rotationFrequency: 0
   update_rate: 500
   angle_min: -0.78534
   angle_max: 0.43633
@@ -408,7 +409,7 @@ MonoBehaviour:
   Timeout: 10
   Serializer: 0
   Protocol: 1
-  RosBridgeServerUrl: "ws://127.0.0.1\x13:9090"
+  RosBridgeServerUrl: ws://127.0.0.1:9090
 --- !u!4 &146303911
 Transform:
   m_ObjectHideFlags: 0
@@ -496,7 +497,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146303909}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bd934fbc4303a4e6baea2edf6391d69, type: 3}
   m_Name: 
@@ -506,10 +507,12 @@ MonoBehaviour:
   FrameId: Unity
   pfreq: 20
   Outside_Time_Synchronization: 0
-  GPSCoordinates: {fileID: 0}
-  XZpositions: {fileID: 0}
-  XZDistance: {fileID: 0}
-  Bearing: {fileID: 0}
+  LatDeg: 0
+  LonDeg: 0
+  dist: 0
+  brng: 0
+  _init_pos: {x: 0, y: 0, z: 0}
+  tmpPos: {x: 0, y: 0, z: 0}
 --- !u!114 &146303917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3577,6 +3580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   samples: 71
+  rotationFrequency: 0
   update_rate: 500
   angle_min: -0.77667
   angle_max: 0.44505
@@ -6420,6 +6424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   samples: 71
+  rotationFrequency: 0
   update_rate: 500
   angle_min: -0.78534
   angle_max: 0.43633
@@ -7907,6 +7912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   samples: 71
+  rotationFrequency: 0
   update_rate: 500
   angle_min: -0.77667
   angle_max: 0.44505
