@@ -564,10 +564,12 @@ MonoBehaviour:
   FrameId: Unity
   pfreq: 20
   Outside_Time_Synchronization: 0
-  GPSCoordinates: {fileID: 482716901}
-  XZpositions: {fileID: 945508026}
-  XZDistance: {fileID: 1418822043}
-  Bearing: {fileID: 456736728}
+  LatDeg: 0
+  LonDeg: 0
+  dist: 0
+  brng: 0
+  _init_pos: {x: 0, y: 0, z: 0}
+  tmpPos: {x: 0, y: 0, z: 0}
 --- !u!114 &146303917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3497,6 +3499,7 @@ GameObject:
   - component: {fileID: 824961772}
   - component: {fileID: 824961771}
   - component: {fileID: 824961770}
+  - component: {fileID: 824961774}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3584,6 +3587,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &824961774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824961769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21223fc989cd20080af73e1eb6a15ec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GPSCoordinates: {fileID: 482716901}
+  XZpositions: {fileID: 945508026}
+  XZDistance: {fileID: 1418822043}
+  Bearing: {fileID: 456736728}
 --- !u!1 &832284219
 GameObject:
   m_ObjectHideFlags: 0

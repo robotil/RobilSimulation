@@ -19,27 +19,30 @@ using System;
 
 namespace RosSharp.RosBridgeClient
 {
-    public class NavSatFixPublisher : Publisher<Messages.Sensor.NavSatFix>
+public class NavSatFixPublisher : Publisher<Messages.Sensor.NavSatFix>
     {
-const double  CENTER_X_NS = 31.2622f;		// GPS coordinates
-const double  CENTER_Y_EW = 34.803611f;	// of lab 320
-const float  DEGREE_TO_M = 111000; 		//1 degree has appprox. 111km
-const double PI  =3.141592653589793238463;
+    const double  CENTER_X_NS = 31.2622f;		// GPS coordinates
+    const double  CENTER_Y_EW = 34.803611f;	// of lab 320
+    const float  DEGREE_TO_M = 111000; 		//1 degree has appprox. 111km
+    const double PI  =3.141592653589793238463;
 
-        public Rigidbody rb;
+    public Rigidbody rb;
 
         public string FrameId = "Unity";
         public int pfreq = 20;
         public bool Outside_Time_Synchronization=false;
+        public double LatDeg, LonDeg, dist, brng;
 
-        public Text GPSCoordinates, XZpositions, XZDistance, Bearing;
+        public Vector3 _init_pos = Vector3.zero;
+        public Vector3 tmpPos = Vector3.zero;
 
-        Vector3 _init_pos = Vector3.zero;
+
         private Messages.Sensor.NavSatFix message;
         private float start_latitude, start_longitude, start_altitude;
-        private double stLatRad, stLonRad, complementaryLatRad, LatRad, LatDeg, additionalLongitudeRad, additionalLongitudeDeg, LonRad, LonDeg;
-        private Vector3 tmpPos = Vector3.zero;
-        private double other_dist, dist, brng, R;
+        private double stLatRad, stLonRad, complementaryLatRad, LatRad, additionalLongitudeRad, additionalLongitudeDeg, LonRad;
+        
+        
+        private double other_dist, R;
 
 
         protected override void Start()
@@ -54,7 +57,6 @@ const double PI  =3.141592653589793238463;
 
         private void FixedUpdate()
         {
-            setGPStext();
           //  if (Time.deltaTime <1.0/pfreq) return;
 
             if (!Outside_Time_Synchronization){ 
@@ -169,21 +171,6 @@ const double PI  =3.141592653589793238463;
             message.longitude = (float)(LonDeg); //Degrees
         
              Publish(message);
-        }
-
-        private void setGPStext(){
-            GPSCoordinates = GameObject.Find("GPS_coordinates_text").GetComponent<Text>();
-            GPSCoordinates.text = "Latitude:  " + LatDeg + "    Longitude:   " + LonDeg;
-
-            XZpositions = GameObject.Find("XZpositions").GetComponent<Text>();
-            XZpositions.text = "init pos =  ( " + Math.Round(_init_pos.x) + " , " + Math.Round(_init_pos.z) + " )  ;  tmp pos =  ( " + tmpPos.x + " , " + tmpPos.z + " )";
-
-            XZDistance = GameObject.Find("XZDistance").GetComponent<Text>();
-            XZDistance.text = "Distance is:  " + dist;
-
-            Bearing = GameObject.Find("Bearing").GetComponent<Text>();
-            Bearing.text = "Bearing:  " + (brng * (180/PI));
-
         }
     }
 }
