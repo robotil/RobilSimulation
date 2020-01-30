@@ -108,46 +108,24 @@ public class NavSatFixPublisher : Publisher<Messages.Sensor.NavSatFix>
 
         private void ComposeAndComputeMessage()
         {
-             tmpPos = rb.position;
-             other_dist = (tmpPos - _init_pos).magnitude;
-             
-             // Original:
-            //  dist = Math.Sqrt((tmpPos.x-_init_pos.x)*(tmpPos.x-_init_pos.x)+(tmpPos.y-_init_pos.y)*(tmpPos.y-_init_pos.y));
-
-
-            //Ehud:
+            tmpPos = rb.position;
+            other_dist = (tmpPos - _init_pos).magnitude;
             // in Unity the +Z is the North and +X is the East
             dist = Math.Sqrt(Math.Pow((tmpPos.x - _init_pos.x),2.0) + Math.Pow((tmpPos.z - _init_pos.z), 2.0));
 
-
-
-             // if ((tmpPos.magnitude*_init_pos.magnitude)==0.0f) brng = Math.Atan2(tmpPos.x,tmpPos.y);
-             // else 
-            //  brng = Math.Atan2(tmpPos.y - _init_pos.y, tmpPos.x - _init_pos.x);
-
-
-            // Ehud:
             // in Unity the +Z is the North and +X is the East
             brng = Math.Atan2(tmpPos.x - _init_pos.x, tmpPos.z - _init_pos.z);
 
 
-             //acos(pos.Dot(_init_pos)/(pos.GetLength()*_init_pos.GetLength()));
-             brng *= 1; //not clear what this statement does!
+            //acos(pos.Dot(_init_pos)/(pos.GetLength()*_init_pos.GetLength()));
+            brng *= 1; //not clear what this statement does!
                  
 
-             R = 6378.1*1000;
-             message.altitude = tmpPos.z;
+            R = 6378.1*1000;
+            message.altitude = tmpPos.z;
 
 
-             stLatRad = start_latitude*PI/180;
-
-            // original
-            //LatRad = Math.Asin(Math.Sin(stLatRad)*Math.Cos(dist/R)+Math.Cos(stLatRad)*Math.Sin(dist/R)*Math.Cos(brng));
-            //LonRad = Math.Atan2(Math.Sin(brng) * Math.Sin(dist / R) * Math.Cos(stLatRad), Math.Cos(dist / R) - Math.Sin(stLatRad) * Math.Sin(LatRad * PI / 180));
-            //message.longitude = start_longitude + (float)(LonRad * 180 / PI); //Degrees
-
-
-            //Ehud:
+            stLatRad = start_latitude*PI/180;
 
             // Spherical Law of Cosines: cos(a) = cos(b)*cos(c) + sin(b)*sin(c)*cos(A)
             complementaryLatRad = Math.Acos(Math.Cos(dist/R) * Math.Cos((PI/2)-stLatRad) +

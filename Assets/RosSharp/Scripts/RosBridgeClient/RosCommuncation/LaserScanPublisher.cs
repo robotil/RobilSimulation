@@ -30,6 +30,7 @@ namespace RosSharp.RosBridgeClient
         {
             base.Start();
             InitializeMessage();
+            Debug.Log("Laser publiser test");
         }
 
         private void FixedUpdate()

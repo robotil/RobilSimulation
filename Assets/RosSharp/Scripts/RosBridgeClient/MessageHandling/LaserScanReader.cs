@@ -53,7 +53,7 @@ namespace RosSharp.RosBridgeClient
             intensities = new float[samples];
             rays = new Ray[samples];
             raycastHits = new RaycastHit[samples];
-            rayResolution = (float)3600/samples;
+            rayResolution = (float)360/samples;
             Debug.Log("ray resolution:  " + rayResolution);
 
         }
