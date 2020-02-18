@@ -19,6 +19,7 @@ namespace RosSharp.RosBridgeClient
 {
     public class MultiLaserScanPublisher : Publisher<Messages.Robil.MultiLaserScan>
     {
+        /*
         public LaserScanReader laserScanReader_t1;
         public LaserScanReader laserScanReader_t2;
         public LaserScanReader laserScanReader_b1;
@@ -108,5 +109,6 @@ namespace RosSharp.RosBridgeClient
             message.scan_time = Time.deltaTime;
             Publish(message);
         }
+        */
     }
 }

@@ -19,55 +19,38 @@ namespace RosSharp.RosBridgeClient
 {
     public class LaserScanPublisher : Publisher<Messages.Sensor.LaserScan>
     {
-        public LaserScanReader laserScanReader;
         public string FrameId = "Unity";
 
         private Messages.Sensor.LaserScan message;
-        private float scanPeriod;
-        private float previousScanTime = 0;
+
+        
+        //**check this***/
+        //time between measurements [seconds] - if your scanner is moving, this will be used in interpolating position of 3d points
+        public float time_increment;
+        //*******check this and also missing in our code msg********/
+        //time between scans [seconds]
+        public float scan_time;
+        
                 
         protected override void Start()
         {
             base.Start();
-            InitializeMessage();
-            Debug.Log("Laser publiser test");
+            //InitializeMessage();
         }
 
-        private void FixedUpdate()
-        {
-            if (Time.realtimeSinceStartup >= previousScanTime + scanPeriod)
-            {
-                Debug.Log("Real time since startup: " + Time.realtimeSinceStartup + ";  previous scan time : " + previousScanTime);
-                float timeBeforeUpdateMessage = Time.realtimeSinceStartup;
-                UpdateMessage();
-                Debug.Log("Time of UpdateMessage: " + (Time.realtimeSinceStartup - timeBeforeUpdateMessage));
-                previousScanTime = Time.realtimeSinceStartup;
-            }
-        }
-
-        private void InitializeMessage()
-        {
-            scanPeriod = (float)laserScanReader.samples / (float)laserScanReader.update_rate;
-
-            message = new Messages.Sensor.LaserScan
-            {
-                header = new Messages.Standard.Header { frame_id = FrameId },
-                angle_min       = laserScanReader.angle_min,
-                angle_max       = laserScanReader.angle_max,
-                angle_increment = laserScanReader.angle_increment,
-                time_increment  = laserScanReader.time_increment,
-                range_min       = laserScanReader.range_min,
-                range_max       = laserScanReader.range_max,
-                ranges          = laserScanReader.ranges,      
-                intensities     = laserScanReader.intensities
-            };
-        }
 
         private void UpdateMessage()
         {
+            //message.header.Update();
+            //laserScanReader.Scan();
+            //Publish(message);
+        }
+
+        public void PublishMessage(Messages.Sensor.LaserScan message){
+            message.header = new Messages.Standard.Header { frame_id = FrameId };
             message.header.Update();
-            message.ranges = laserScanReader.Scan();
             Publish(message);
+
         }
     }
 }

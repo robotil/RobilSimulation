@@ -3,6 +3,7 @@ This message class is generated automatically with 'SimpleMessageGenerator' of R
 */ 
 
 using Newtonsoft.Json;
+using RosSharp.RosBridgeClient;
 using RosSharp.RosBridgeClient.Messages.Geometry;
 using RosSharp.RosBridgeClient.Messages.Navigation;
 using RosSharp.RosBridgeClient.Messages.Sensor;
