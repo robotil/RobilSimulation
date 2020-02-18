@@ -211,5 +211,3 @@ namespace RosSharp.RosBridgeClient
                
 
     
-LaserScanReader.cs
-מציג את LaserScanReader.cs.
