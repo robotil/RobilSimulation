@@ -49,6 +49,22 @@ namespace RosSharp.RosBridgeClient
         public void PublishMessage(Messages.Sensor.LaserScan message){
             message.header = new Messages.Standard.Header { frame_id = FrameId };
             message.header.Update();
+            //convert angles from clockwise (in Rp Lidar) to counter clockwise (in hector slam)
+            bool reversed = (message.angle_max > message.angle_min);
+            if ( reversed ) {
+                message.angle_min =  2* Mathf.PI - message.angle_max;
+                message.angle_max =  2 * Mathf.PI - message.angle_min;
+            } 
+            else {
+                message.angle_min = 2 * Mathf.PI - message.angle_min;
+                message.angle_max = 2 * Mathf.PI - message.angle_max;
+            }
+            float tmp;
+            for(int i = 0; i < Mathf.Floor(message.ranges.Length / 2); i++){
+                tmp = message.ranges[i];
+                message.ranges[i] = message.ranges[message.ranges.Length - 1 - i];
+                message.ranges[message.ranges.Length - 1 - i] = tmp;
+            }
             Publish(message);
 
         }
