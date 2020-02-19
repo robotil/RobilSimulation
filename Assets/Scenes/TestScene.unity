@@ -196,18 +196,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c87b3c7b7739511498b2993d8daf6c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  samples: 71
-  rotationFrequency: 0
-  update_rate: 500
-  angle_min: -0.78534
-  angle_max: 0.43633
-  angle_increment: -0.0174533
-  time_increment: 0.08
-  scan_time: 0.08
-  range_min: 0.3
-  range_max: 30
-  ranges: []
-  intensities: []
+  LaserScanPublisher: {fileID: 0}
+  SensorRotator: {fileID: 0}
+  angle_res: 0
+  MinAngle: 0
+  MaxAngle: 0
 --- !u!1 &113533729
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,7 +387,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 93cc0de9b83b15019ab656281938608c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: 2.35
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 93cc0de9b83b15019ab656281938608c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -432,6 +425,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 93cc0de9b83b15019ab656281938608c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 93cc0de9b83b15019ab656281938608c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 93cc0de9b83b15019ab656281938608c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93cc0de9b83b15019ab656281938608c, type: 3}
 --- !u!1 &146303909
@@ -449,7 +454,6 @@ GameObject:
   - component: {fileID: 146303913}
   - component: {fileID: 146303914}
   - component: {fileID: 146303912}
-  - component: {fileID: 146303915}
   - component: {fileID: 146303916}
   - component: {fileID: 146303917}
   - component: {fileID: 146303918}
@@ -519,8 +523,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Topic: /sickldmrs/scan0
-  laserScanReader: {fileID: 1258416946}
   FrameId: IBEO
+  time_increment: 0
+  scan_time: 0
 --- !u!114 &146303914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,26 +541,6 @@ MonoBehaviour:
   TankDriver: {fileID: 1252373727}
   Float64SubThrottle: {fileID: 146303920}
   Float64SubSteering: {fileID: 146303919}
---- !u!114 &146303915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146303909}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21d636d739d7c54598594c307e989315, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Topic: /SENSORS/IBEO
-  laserScanReader_t1: {fileID: 1920181024}
-  laserScanReader_t2: {fileID: 805725447}
-  laserScanReader_b1: {fileID: 53422878}
-  laserScanReader_b2: {fileID: 1367478518}
-  FrameId: Unity
-  Samples: 71
-  Update_Rate: 500
 --- !u!114 &146303916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3127,6 +3112,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 759736883}
   m_Mesh: {fileID: 4300120, guid: 2eed3e15a49234c9e98473b7928523d2, type: 3}
+--- !u!4 &760253223 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8534520612849074473, guid: 42ef4876cb06f743e882d904500ce837,
+    type: 3}
+  m_PrefabInstance: {fileID: 8534520612878609659}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &768621269
 GameObject:
   m_ObjectHideFlags: 0
@@ -3520,18 +3511,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c87b3c7b7739511498b2993d8daf6c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  samples: 71
-  rotationFrequency: 0
-  update_rate: 500
-  angle_min: -0.77667
-  angle_max: 0.44505
-  angle_increment: -0.0174533
-  time_increment: 0.08
-  scan_time: 0.08
-  range_min: 0.3
-  range_max: 30
-  ranges: []
-  intensities: []
+  LaserScanPublisher: {fileID: 0}
+  SensorRotator: {fileID: 0}
+  angle_res: 0
+  MinAngle: 0
+  MaxAngle: 0
 --- !u!1 &824961769
 GameObject:
   m_ObjectHideFlags: 0
@@ -6109,18 +6093,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1258416946 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8534520614069798857, guid: 42ef4876cb06f743e882d904500ce837,
-    type: 3}
-  m_PrefabInstance: {fileID: 8534520612878609659}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c87b3c7b7739511498b2993d8daf6c51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1259087447
 GameObject:
   m_ObjectHideFlags: 0
@@ -6650,18 +6622,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c87b3c7b7739511498b2993d8daf6c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  samples: 71
-  rotationFrequency: 0
-  update_rate: 500
-  angle_min: -0.78534
-  angle_max: 0.43633
-  angle_increment: -0.0174533
-  time_increment: 0.08
-  scan_time: 0.08
-  range_min: 0.3
-  range_max: 30
-  ranges: []
-  intensities: []
+  LaserScanPublisher: {fileID: 0}
+  SensorRotator: {fileID: 0}
+  angle_res: 0
+  MinAngle: 0
+  MaxAngle: 0
 --- !u!1 &1371668457
 GameObject:
   m_ObjectHideFlags: 0
@@ -8164,18 +8129,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c87b3c7b7739511498b2993d8daf6c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  samples: 71
-  rotationFrequency: 0
-  update_rate: 500
-  angle_min: -0.77667
-  angle_max: 0.44505
-  angle_increment: -0.0174533
-  time_increment: 0.08
-  scan_time: 0.08
-  range_min: 0.3
-  range_max: 30
-  ranges: []
-  intensities: []
+  LaserScanPublisher: {fileID: 0}
+  SensorRotator: {fileID: 0}
+  angle_res: 0
+  MinAngle: 0
+  MaxAngle: 0
 --- !u!1 &1963901205
 GameObject:
   m_ObjectHideFlags: 0
@@ -9314,12 +9272,12 @@ PrefabInstance:
     - target: {fileID: 8534520613335041270, guid: 42ef4876cb06f743e882d904500ce837,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.9780002
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8534520613335041270, guid: 42ef4876cb06f743e882d904500ce837,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8534520613335041270, guid: 42ef4876cb06f743e882d904500ce837,
         type: 3}
