@@ -148,7 +148,7 @@ namespace RosSharp.RosBridgeClient
                 
                 add_val++;
                 azimuth[i] = horCurrentAngle;
-                Debug.Log (horCurrentAngle);
+                //Debug.Log (horCurrentAngle);
                 horCurrentAngle = start_ang + add_val * angle_res;
                 SensorRotator.localEulerAngles = new Vector3(0, horCurrentAngle, 0);
             }

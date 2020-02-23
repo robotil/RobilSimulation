@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class RobotDriver : MonoBehaviour
 {
+   public bool manualInput = true;
    public List<AxleInfo> axleInfos;
+   public float throttleCommand, steeringCommand;
    public float maxMotorTorque;
    public float maxSteeringAngle;
+   
+
+    private float currentMotorTorque;
+    private float currentSteeringAngle;
+
+
    public Vector3 com;
 
    private Rigidbody rb;
@@ -17,6 +25,54 @@ public class RobotDriver : MonoBehaviour
 
    }
 
+  
+    public void FixedUpdate()
+    {
+        rb.centerOfMass = com;
+       
+        if (manualInput){
+            throttleCommand = Input.GetAxis("Vertical");
+            steeringCommand = Input.GetAxis("Horizontal");
+            Apply(throttleCommand, steeringCommand);
+        }
+
+    }
+
+    [System.Serializable]
+
+    public class AxleInfo
+    {
+        public WheelCollider leftWheel;
+        public WheelCollider rightWheel;
+        public bool attachedToMotor;
+        public bool attachToSteering;
+    }
+
+    public void Apply(float applythrottle, float applySteering)
+    {
+        currentMotorTorque = maxMotorTorque * applythrottle;
+        currentSteeringAngle = maxSteeringAngle * applySteering;
+
+
+        foreach (AxleInfo axle in axleInfos)
+        {
+            if (axle.attachedToMotor)
+            {
+                axle.rightWheel.motorTorque = currentMotorTorque;
+                axle.leftWheel.motorTorque = currentMotorTorque;
+            }
+
+            if (axle.attachToSteering)
+            {
+                axle.rightWheel.steerAngle = currentSteeringAngle;
+                axle.leftWheel.steerAngle = currentSteeringAngle;
+            }
+
+            ApplyLocalPositionToVisuals(axle.rightWheel);
+            ApplyLocalPositionToVisuals(axle.leftWheel);
+
+        }
+    }
 
     public void ApplyLocalPositionToVisuals(WheelCollider collider)
     {
@@ -34,41 +90,6 @@ public class RobotDriver : MonoBehaviour
         visualWheel.transform.position = position;
         visualWheel.transform.rotation = rotation;
     }
-    
-    public void FixedUpdate()
-    {
-        rb.centerOfMass = com;
-        Debug.Log("center of mass: " + com);
-        
-        float currentMotorTorque = maxMotorTorque * Input.GetAxis("Vertical");
-        float currentSteeringAngle = maxSteeringAngle * Input.GetAxis("Horizontal");
-        
-        foreach (AxleInfo axle in axleInfos)
-        {
-            if (axle.attachedToMotor){
-                axle.rightWheel.motorTorque = currentMotorTorque;
-                axle.leftWheel.motorTorque = currentMotorTorque;
-            }
 
-            if (axle.attachToSteering)
-            {
-                axle.rightWheel.steerAngle = currentSteeringAngle;
-                axle.leftWheel.steerAngle = currentSteeringAngle;
-            }
-
-            ApplyLocalPositionToVisuals(axle.rightWheel);
-            ApplyLocalPositionToVisuals(axle.leftWheel);
-
-        }
-    }
 }
 
-[System.Serializable]
-
-public class AxleInfo
-{
-    public WheelCollider leftWheel;
-    public WheelCollider rightWheel;
-    public bool attachedToMotor;
-    public bool attachToSteering;
-}
